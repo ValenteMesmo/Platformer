@@ -28,5 +28,11 @@ namespace Platformer.Desktop
         {
             Pool.Return(this);
         }
+
+        public static implicit operator T(ValueKeeper<T> keeper)
+        {
+            return keeper.value;
+        }
+
     }
 }

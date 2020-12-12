@@ -23,7 +23,7 @@ namespace Platformer.Desktop
             ActiveObjects = new List<GameObject>();
             Camera = new Camera() { Zoom = 0.72f, Position = new Point(500, 0) };
             Player1Inputs = new GameInputs();
-            originalGameInstance = new GameWrapper(this);
+            originalGameInstance = new GameWrapper(this);            
         }
 
         public void Run()
@@ -76,12 +76,21 @@ namespace Platformer.Desktop
             this.Parent = Parent;
 
             graphics = new GraphicsDeviceManager(this);
+            
             Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+
+            if (false)
+            {
+                graphics.IsFullScreen = true;
+                graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+                graphics.ApplyChanges();
+            }
             this.Window.Title = "Platformer";
         }
 
