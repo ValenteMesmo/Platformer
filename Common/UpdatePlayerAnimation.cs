@@ -2,9 +2,9 @@
 {
     public static class UpdatePlayerAnimation
     {
-        public static void Update(InputController input, Animation animation, ValueKeeper<bool> facingRight, ValueKeeper<bool> grounded)
+        public static void Update(InputController input, Animation animation, ValueKeeper<bool> facingRight, ValueKeeper<int> grounded)
         {
-            if (!grounded.GetValue())
+            if (grounded == 0)
                 animation.Frame = 1;
             else if (input.Left.IsPressed || input.Right.IsPressed)
                 if (animation.Frame == 1)

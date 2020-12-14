@@ -10,9 +10,9 @@ namespace Platformer.Desktop
             obj.Position.Y = -14000;
             obj.Identifier = Identifier.Player;
 
-            var grounded = ValueKeeper<bool>.Create();
+            var grounded = ValueKeeper<int>.Create();
             var facingRight = ValueKeeper<bool>.Create();
-            
+
             var collider = Collider.Create(obj);
             collider.Area = new Rectangle(
                 50 * Const.Scale
@@ -33,10 +33,10 @@ namespace Platformer.Desktop
             obj.UpdateHandler = () =>
             {
                 UpdateGravity.Update(obj);
-                UpdateVelocityUsingInputs.Update(obj, input, grounded, facingRight);
+                UpdateVelocityUsingInputs.Update(obj, input, facingRight);
                 UpdateJump.Update(obj, input, grounded);
                 UpdatePlayerAnimation.Update(input, animation, facingRight, grounded);
-                grounded.SetValue(false);
+                grounded.SetValue(grounded.GetValue().DecrementUntil(1, 0));
             };
 
             obj.OnDestroy = () =>

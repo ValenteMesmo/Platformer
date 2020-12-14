@@ -1,4 +1,3 @@
-using NSubstitute;
 using Platformer.Desktop;
 using Xunit;
 

@@ -7,10 +7,10 @@ namespace Platformer.Desktop
         public static void Update(
            GameObject obj
            , InputController input
-           , ValueKeeper<bool> grounded
+           , ValueKeeper<int> grounded
         )
         {
-            if (grounded && input.Jump.IsPressStaring)
+            if (grounded > 0 && input.Jump.IsPressStaring)
             {
                 obj.Velocity.Y = -Const.jumpForce;
             }

@@ -1,4 +1,3 @@
-using NSubstitute;
 using Platformer.Desktop;
 using Xunit;
 
@@ -11,10 +10,10 @@ namespace Tests.Unit
         {
             var obj = GameObject.Create();
             var input = new InputController();
-            var grounded = ValueKeeper<bool>.Create();
+            var grounded = ValueKeeper<int>.Create();
 
             input.Jump.Press();
-            grounded.SetValue(true);
+            grounded.SetValue(1);
 
             UpdateJump.Update(obj, input, grounded);
 

@@ -3,7 +3,7 @@
     public static class DetectsIfGrounded
     {
         private static CollisionHandler handler = null;
-        public static CollisionHandler Create(ValueKeeper<bool> grounded)
+        public static CollisionHandler Create(ValueKeeper<int> grounded)
         {
             handler = CollisionHandler.Create();
 
@@ -15,11 +15,11 @@
             return handler;
         }
 
-        private static void Bot(ValueKeeper<bool> grounded, Collider target)
+        private static void Bot(ValueKeeper<int> grounded, Collider target)
         {
             if (target.Parent.Identifier == Identifier.Block)
             {
-                grounded.SetValue(true);
+                grounded.SetValue(6);
             }
         }
 

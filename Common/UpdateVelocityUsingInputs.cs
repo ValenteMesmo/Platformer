@@ -9,7 +9,6 @@
         public static void Update(
             GameObject obj
             , InputController input
-            , ValueKeeper<bool> grounded
             , ValueKeeper<bool> facingRight
         )
         {
