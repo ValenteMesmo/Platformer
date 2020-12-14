@@ -1,26 +1,24 @@
-﻿namespace Platformer.Desktop
+﻿using System.Collections.Generic;
+
+namespace Platformer.Desktop
 {
     public static class UpdateJump
     {
-        const int jump_force = -3900;
-
         public static void Update(
            GameObject obj
-           , GameInputs input
+           , InputController input
            , ValueKeeper<bool> grounded
-           , ValueKeeper<bool> jumping
         )
         {
-            if (grounded && input.Jump > 0)
+            if (grounded && input.Jump.IsPressStaring)
             {
-                obj.Velocity.Y = jump_force;
-                jumping.SetValue(true);
+                obj.Velocity.Y = -Const.jumpForce;
             }
-            //else if (grounded && obj.Velocity.Y >= 0)
-            //    jumping.SetValue(false);
 
-            if (!grounded && obj.Velocity.Y < 0 && input.Jump == 0)
-                obj.Velocity.Y = 0;
+            if (!input.Jump.IsPressed  && obj.Velocity.Y < 0)
+            {
+                obj.Velocity.Y += Const.stoppingGravity;
+            }
         }
 
     }

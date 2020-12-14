@@ -6,8 +6,8 @@
         {
             obj.Velocity.Y = 
                 obj.Velocity.Y.IncrementUntil(
-                    200, 2000                    
-                    );
+                    Const.GRAVITY_ACCELERATION, Const.GRAVITY_MAXSPEED
+                );
         }
     }
 }

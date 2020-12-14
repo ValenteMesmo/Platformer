@@ -10,18 +10,18 @@ namespace Tests.Unit
         public void Test1()
         {
             var obj = GameObject.Create();
-            var input = new GameInputs();
+            var input = new InputController();
             var grounded = ValueKeeper<bool>.Create();
-            var jumping = ValueKeeper<bool>.Create();
 
-            input.Jump = 1;
-            grounded .SetValue(true);
+            input.Jump.Press();
+            grounded.SetValue(true);
 
-            UpdateJump.Update(obj, input, grounded, jumping);
+            UpdateJump.Update(obj, input, grounded);
 
             obj.Velocity.Y = 0;
 
-            UpdateJump.Update(obj, input, grounded, jumping);
+            UpdateJump.Update(obj, input, grounded);
         }
+
     }
 }

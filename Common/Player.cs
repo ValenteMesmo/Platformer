@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.Desktop
 {
     public static class Player
     {
-        public static GameObject Create(GameInputs input)
+        public static GameObject Create(InputController input)
         {
             var obj = GameObject.Create();
             obj.Position.Y = -14000;
@@ -13,18 +12,17 @@ namespace Platformer.Desktop
 
             var grounded = ValueKeeper<bool>.Create();
             var facingRight = ValueKeeper<bool>.Create();
-            var jumping = ValueKeeper<bool>.Create();
             
             var collider = Collider.Create(obj);
             collider.Area = new Rectangle(
-                50 * Constant.Scale
+                50 * Const.Scale
                 , 4000
                 , 10000
                 , 20000 - 4000);
             collider.Handler = StopsWhenHitingBlocks.Create();
 
             collider = Collider.Create(obj);
-            collider.Area = new Rectangle(50 * Constant.Scale, 210 * Constant.Scale, 100 * Constant.Scale, 10 * Constant.Scale);
+            collider.Area = new Rectangle(50 * Const.Scale, 210 * Const.Scale, 100 * Const.Scale, 10 * Const.Scale);
             collider.Handler = DetectsIfGrounded.Create(grounded);
 
             var animation = Animation.Create();
@@ -34,9 +32,9 @@ namespace Platformer.Desktop
             obj.RenderHandler = animation;
             obj.UpdateHandler = () =>
             {
-                UpdateVelocityUsingInputs.Update(obj, input, grounded, facingRight);
-                UpdateJump.Update(obj, input, grounded, jumping);
                 UpdateGravity.Update(obj);
+                UpdateVelocityUsingInputs.Update(obj, input, grounded, facingRight);
+                UpdateJump.Update(obj, input, grounded);
                 UpdatePlayerAnimation.Update(input, animation, facingRight, grounded);
                 grounded.SetValue(false);
             };

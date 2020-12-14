@@ -8,39 +8,67 @@ namespace Platformer.Desktop
         public override void LoadContent(ContentManager Content)
         {
             Camera.Zoom = 0.006f;
-            Camera.Position.X = 500 * Constant.Scale;
+            Camera.Position.X = 500 * Const.Scale;
 
             Textures.Load(Content);
 
             for (var i = 0; i < 7; i++)
             {
                 var currentObj = Block.Create();
-                currentObj.Position.Y = 200  *Constant.Scale;
-                currentObj.Position.X = -200 * Constant.Scale + (200 * Constant.Scale * i);
+                currentObj.Position.Y = 200 * Const.Scale * 2;
+                currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * i);
                 AddObject(currentObj);
             }
 
             for (var i = 0; i < 7; i++)
             {
                 var currentObj = Block.Create();
-                currentObj.Position.Y = -600 * Constant.Scale;
-                currentObj.Position.X = -200 * Constant.Scale + (200 * Constant.Scale * i);
+                currentObj.Position.Y = -600 * Const.Scale;
+                currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * i);
                 AddObject(currentObj);
             }
 
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 6; i++)
             {
                 var currentObj = Block.Create();
-                currentObj.Position.Y = -600 * Constant.Scale + (200 * Constant.Scale * i);
-                currentObj.Position.X = -400 * Constant.Scale;
+                currentObj.Position.Y = -600 * Const.Scale + (200 * Const.Scale * i);
+                currentObj.Position.X = -400 * Const.Scale;
                 AddObject(currentObj);
             }
 
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 6; i++)
             {
                 var currentObj = Block.Create();
-                currentObj.Position.Y = -600 * Constant.Scale + (200 * Constant.Scale * i);
-                currentObj.Position.X = -400 * Constant.Scale + (200 * Constant.Scale * 8);
+                currentObj.Position.Y = -600 * Const.Scale + (200 * Const.Scale * i);
+                currentObj.Position.X = -400 * Const.Scale + (200 * Const.Scale * 8);
+                AddObject(currentObj);
+            }
+            
+            {
+                var currentObj = Block.Create();
+                currentObj.Position.Y = 200 * Const.Scale ;
+                currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 3);
+                AddObject(currentObj);
+            }
+
+            {
+                var currentObj = Block.Create();
+                currentObj.Position.Y = 0;
+                currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 4);
+                AddObject(currentObj);
+            }
+
+            {
+                var currentObj = Block.Create();
+                currentObj.Position.Y = 200 * Const.Scale;
+                currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 5);
+                AddObject(currentObj);
+            }
+
+            {
+                var currentObj = Block.Create();
+                currentObj.Position.Y = -400 * Const.Scale; ;
+                currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 3);
                 AddObject(currentObj);
             }
 
@@ -54,6 +82,6 @@ namespace Platformer.Desktop
             AddObject(fps);
 
 
-        }        
+        }
     }
 }

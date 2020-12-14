@@ -14,7 +14,7 @@ namespace Platformer.Desktop
         public Camera Camera = null;
         internal List<GameObject> Objects = null;
         internal List<GameObject> ActiveObjects = null;
-        public GameInputs Player1Inputs = null;
+        public InputController Player1Inputs = null;
         public double CurrentFramesPerSecond = 60;
 
         public Game()
@@ -22,8 +22,8 @@ namespace Platformer.Desktop
             Objects = new List<GameObject>();
             ActiveObjects = new List<GameObject>();
             Camera = new Camera() { Zoom = 0.72f, Position = new Point(500, 0) };
-            Player1Inputs = new GameInputs();
-            originalGameInstance = new GameWrapper(this);            
+            Player1Inputs = new InputController();
+            originalGameInstance = new GameWrapper(this);
         }
 
         public void Run()
@@ -53,8 +53,8 @@ namespace Platformer.Desktop
     {
         GraphicsDeviceManager graphics = null;
         SpriteBatch spriteBatch = null;
-        private KeyboardState key ;
-        private GamePadState gamePad ;
+        private KeyboardState key;
+        private GamePadState gamePad;
         private Texture2D pixel = null;
 
         private readonly Game Parent;
@@ -76,7 +76,7 @@ namespace Platformer.Desktop
             this.Parent = Parent;
 
             graphics = new GraphicsDeviceManager(this);
-            
+
             Content.RootDirectory = "Content";
         }
 
@@ -140,44 +140,24 @@ namespace Platformer.Desktop
             gamePad = GamePad.GetState(0);
 
             if (key.IsKeyDown(Keys.A) || gamePad.IsButtonDown(Buttons.DPadLeft))
-            {
-                Parent.Player1Inputs.Left++;
-                if (Parent.Player1Inputs.Left > 10)
-                    Parent.Player1Inputs.Left = 10;
-            }
+                Parent.Player1Inputs.Left.Press();
             else
-            {
-                Parent.Player1Inputs.Left--;
-                if (Parent.Player1Inputs.Left < 0)
-                    Parent.Player1Inputs.Left = 0;
-            }
+                Parent.Player1Inputs.Left.Release();
 
             if (key.IsKeyDown(Keys.D) || gamePad.IsButtonDown(Buttons.DPadRight))
-            {
-                Parent.Player1Inputs.Right++;
-                if (Parent.Player1Inputs.Right > 10)
-                    Parent.Player1Inputs.Right = 10;
-            }
+                Parent.Player1Inputs.Right.Press();
             else
-            {
-                Parent.Player1Inputs.Right--;
-                if (Parent.Player1Inputs.Right < 0)
-                    Parent.Player1Inputs.Right = 0;
-            }
+                Parent.Player1Inputs.Right.Release();
 
             if (key.IsKeyDown(Keys.Space) || gamePad.IsButtonDown(Buttons.A))
-            {
-                Parent.Player1Inputs.Jump++;
-                if (Parent.Player1Inputs.Jump > 10)
-                    Parent.Player1Inputs.Jump = 10;
-            }
+                Parent.Player1Inputs.Jump.Press();
             else
-            {
-                Parent.Player1Inputs.Jump--;
-                if (Parent.Player1Inputs.Jump < 0)
-                    Parent.Player1Inputs.Jump = 0;
-            }
+                Parent.Player1Inputs.Jump.Release();
 
+            if (key.IsKeyDown(Keys.F10))
+                Parent.Player1Inputs.ColliderToggle.Press();
+            else
+                Parent.Player1Inputs.ColliderToggle.Release();
 
             for (i = 0; i < Parent.ActiveObjects.Count; i++)
             {
@@ -255,10 +235,12 @@ namespace Platformer.Desktop
             for (i = 0; i < Parent.Objects.Count; i++)
             {
                 Parent.Objects[i].RenderHandler.Draw(spriteBatch, spriteBatch, Parent.Objects[i]);
-                for (j = 0; j < Parent.Objects[i].Colliders.Count; j++)
-                {
-                    DrawBorder(Parent.Objects[i].Colliders[j].RelativeArea, 1000, Color.Red, spriteBatch);
-                }
+
+                if (Parent.Player1Inputs.ColliderToggle.IsToogled)
+                    for (j = 0; j < Parent.Objects[i].Colliders.Count; j++)
+                    {
+                        DrawBorder(Parent.Objects[i].Colliders[j].RelativeArea, 1000, Color.Red, spriteBatch);
+                    }
 
             }
 
@@ -266,10 +248,11 @@ namespace Platformer.Desktop
             {
                 Parent.ActiveObjects[i].RenderHandler.Draw(spriteBatch, spriteBatch, Parent.ActiveObjects[i]);
 
-                for (j = 0; j < Parent.ActiveObjects[i].Colliders.Count; j++)
-                {
-                    DrawBorder(Parent.ActiveObjects[i].Colliders[j].RelativeArea, 1000, Color.Red, spriteBatch);
-                }
+                if (Parent.Player1Inputs.ColliderToggle.IsToogled)
+                    for (j = 0; j < Parent.ActiveObjects[i].Colliders.Count; j++)
+                    {
+                        DrawBorder(Parent.ActiveObjects[i].Colliders[j].RelativeArea, 1000, Color.Red, spriteBatch);
+                    }
 
             }
             spriteBatch.End();
