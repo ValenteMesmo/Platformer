@@ -9,9 +9,19 @@ namespace Tests.Unit
         [Fact]
         public void Test1()
         {
-            var obj = Player.Create(new GameInputs());
-            obj.UpdateHandler();
-            obj.Destroy();
+            var obj = GameObject.Create();
+            var input = new InputController();
+            var grounded = ValueKeeper<bool>.Create();
+
+            input.Jump.Press();
+            grounded.SetValue(true);
+
+            UpdateJump.Update(obj, input, grounded);
+
+            obj.Velocity.Y = 0;
+
+            UpdateJump.Update(obj, input, grounded);
         }
+
     }
 }

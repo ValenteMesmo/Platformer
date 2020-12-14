@@ -11,9 +11,7 @@ namespace Platformer.Desktop
             obj = GameObject.Create();
             obj.Identifier = Identifier.Block;
             collider = Collider.Create(obj);
-            collider.Area = new Rectangle(0, 0, 200 * Constant.Scale, 200 * Constant.Scale);
-            //obj.Colliders.Add(collider);
-
+            collider.Area = new Rectangle(0, 0, 200 * Const.Scale, 200 * Const.Scale);
 
 
             obj.RenderHandler=Textures.block;

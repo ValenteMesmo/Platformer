@@ -9,8 +9,8 @@ namespace Platformer.Desktop
         public Matrix Transform;
         protected float Rotation;
         public float Zoom;
-        private const float VIRTUAL_WIDTH = 1280;
-        private const float VIRTUAL_HEIGHT = 720;
+        private const float VIRTUAL_WIDTH = 1366;
+        private const float VIRTUAL_HEIGHT = 768;
 
         public Camera()
         {
