@@ -21,5 +21,10 @@
 
             return value;
         }
+
+        public static int DecrementUntil(this int value, int limit)
+        {            
+            return DecrementUntil(value, 1, limit);
+        }
     }
 }
