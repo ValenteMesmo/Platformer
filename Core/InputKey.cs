@@ -11,7 +11,7 @@
             if (IsPressStaring)
             {
                 IsToogled = !IsToogled;
-                Heat = 6;
+                Heat = 15;
             }
             else
                 Heat = Heat.DecrementUntil(0);

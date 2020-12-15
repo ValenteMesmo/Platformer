@@ -36,7 +36,7 @@ namespace Platformer.Desktop
                 UpdateVelocityUsingInputs.Update(obj, input, facingRight);
                 UpdateJump.Update(obj, input, grounded);
                 UpdatePlayerAnimation.Update(input, animation, facingRight, grounded);
-                grounded.SetValue(grounded.GetValue().DecrementUntil(1, 0));
+                grounded.SetValue(grounded.GetValue().DecrementUntil(0));
             };
 
             obj.OnDestroy = () =>

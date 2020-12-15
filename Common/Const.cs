@@ -4,7 +4,7 @@
     {
         public const int Scale = 100;
 
-        public const int GRAVITY_ACCELERATION = 120;
+        public const int GRAVITY_ACCELERATION = 90;
         public const int GRAVITY_MAXSPEED = 3000;
 
         public const int stoppingGravity = GRAVITY_MAXSPEED / 3;

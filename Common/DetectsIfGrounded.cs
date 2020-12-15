@@ -19,7 +19,7 @@
         {
             if (target.Parent.Identifier == Identifier.Block)
             {
-                grounded.SetValue(6);
+                grounded.SetValue(9);
             }
         }
 
