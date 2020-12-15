@@ -9,7 +9,9 @@ namespace Platformer.Desktop
         public static SpriteRenderer idle;
         public static SpriteRenderer walk;
         public static SpriteRenderer block;
+        //TODO: fix this...
         public static TextRenderer text;
+        public static TextRenderer text2;
 
         public static void Load(ContentManager Content)
         {
@@ -27,6 +29,9 @@ namespace Platformer.Desktop
 
             text = TextRenderer.Create();
             text.Font = Content.Load<SpriteFont>("font");
+
+            text2 = TextRenderer.Create();
+            text2.Font = Content.Load<SpriteFont>("font");
         }
     }
 }

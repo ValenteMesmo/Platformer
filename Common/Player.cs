@@ -2,9 +2,19 @@
 
 namespace Platformer.Desktop
 {
+    public enum State
+    {
+        Idle,
+        WalkingRight,
+        WalkingLeft,
+        Jump,
+        BreakJump,
+        Fall,
+    }
+
     public static class Player
     {
-        public static GameObject Create(InputController input)
+        public static GameObject Create(InputController input, ValueKeeper<State> state)
         {
             var obj = GameObject.Create();
             obj.Position.Y = -14000;
@@ -32,6 +42,12 @@ namespace Platformer.Desktop
             obj.RenderHandler = animation;
             obj.UpdateHandler = () =>
             {
+                ChangeToIdle.Try(input, grounded, state);
+                ChangeToWalkingLeft.Try(input, grounded, state);
+                ChangeToWalkingRight.Try(input, grounded, state);
+                ChangeToJumpState.Try(obj, input, grounded, state);
+                ChangeToFallingState.Try(obj, grounded, state);
+
                 UpdateGravity.Update(obj);
                 UpdateVelocityUsingInputs.Update(obj, input, facingRight);
                 UpdateJump.Update(obj, input, grounded);

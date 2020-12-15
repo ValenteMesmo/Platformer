@@ -34,5 +34,10 @@ namespace Platformer.Desktop
             return keeper.value;
         }
 
+        public override string ToString()
+        {
+            return value?.ToString();
+        }
+
     }
 }
