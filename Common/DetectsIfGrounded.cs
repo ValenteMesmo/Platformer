@@ -19,7 +19,7 @@
         {
             if (target.Parent.Identifier == Identifier.Block)
             {
-                grounded.SetValue(9);
+                grounded.SetValue(Const.Grounded_Timer);
             }
         }
 
