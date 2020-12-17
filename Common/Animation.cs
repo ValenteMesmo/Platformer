@@ -16,9 +16,21 @@ namespace Platformer.Desktop
             Sprites = new List<SpriteRenderer>();
         }
 
+        public void Reset()
+        {
+            Frame = 0;
+        }
+
         public static Animation Create()
         {
             return Pool.Get();
+        }
+
+        public void Update()
+        {
+            Frame++;
+            if (Frame >= Sprites.Count)
+                Frame = 0;
         }
 
         public override void Destroy()

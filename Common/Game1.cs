@@ -43,10 +43,10 @@ namespace Platformer.Desktop
                 currentObj.Position.X = -400 * Const.Scale + (200 * Const.Scale * 8);
                 AddObject(currentObj);
             }
-            
+
             {
                 var currentObj = Block.Create();
-                currentObj.Position.Y = 200 * Const.Scale ;
+                currentObj.Position.Y = 200 * Const.Scale;
                 currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 3);
                 AddObject(currentObj);
             }

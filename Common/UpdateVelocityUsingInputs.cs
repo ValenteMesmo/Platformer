@@ -2,36 +2,21 @@
 {
     public static class UpdateVelocityUsingInputs
     {
-        const int move_speed = 1200;
-        const int acceleration = move_speed / 6;
-        const int deceleration = move_speed / 3;
-
         public static void Update(
             GameObject obj
-            , InputController input
             , ValueKeeper<bool> facingRight
+            , InputController input
         )
         {
-            if (input.Left.IsPressed)
+
+
+            if (input.Left)
                 obj.Velocity.X = obj.Velocity.X.DecrementUntil(
-                    obj.Velocity.X > acceleration ? acceleration * 2 : acceleration, -move_speed);
+                    obj.Velocity.X > Const.acceleration ? Const.acceleration * 2 : Const.acceleration, -Const.move_speed);
 
-            else if (input.Right.IsPressed)
+            else if (input.Right)
                 obj.Velocity.X = obj.Velocity.X.IncrementUntil(
-                    obj.Velocity.X < -acceleration ? acceleration * 2 : acceleration, move_speed);
-
-            else if (obj.Velocity.X > 0)
-                obj.Velocity.X = obj.Velocity.X.DecrementUntil(deceleration, 0);
-
-            else if (obj.Velocity.X < 0)
-                obj.Velocity.X = obj.Velocity.X.IncrementUntil(deceleration, 0);
-
-            //TODO: move to other file
-            if (obj.Velocity.X > 0)
-                facingRight.SetValue(true);
-
-            else if (obj.Velocity.X < 0)
-                facingRight.SetValue(false);
+                    obj.Velocity.X < -Const.acceleration ? Const.acceleration * 2 : Const.acceleration, Const.move_speed);
         }
     }
 }
