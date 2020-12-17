@@ -2,11 +2,7 @@
 {
     public static class ChangeToJumpState
     {
-        public static void Try(
-            GameObject obj
-            , InputController input
-            , ValueKeeper<int> grounded
-            , ValueKeeper<State> state)
+        public static void Try(ValueKeeper<State> state)
         {
             state.SetValue(State.Jump);
         }

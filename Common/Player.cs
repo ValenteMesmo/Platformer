@@ -43,7 +43,7 @@ namespace Platformer.Desktop
                 {
                     ChangeToFallingState.Try(obj, grounded, state);
                     ChangeToWalking.Try(input, grounded, state);
-                    ChangeToJumpStart.Try(obj, input, grounded, state);                    
+                    ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
                 {
@@ -61,12 +61,12 @@ namespace Platformer.Desktop
                     ChangeToFallingState.Try(obj, grounded, state);
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state);
-                    ChangeToJumpStart.Try(obj, input, grounded, state);
+                    ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
-                    UpdateVelocityUsingInputs.Update(obj, facingRight,input);
+                    UpdateVelocityUsingInputs.Update(obj, input);
                     PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     grounded.SetValue(grounded.GetValue().DecrementUntil(0));
                 });
@@ -76,13 +76,13 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeFacingDirection.Change(input, facingRight);
-                    ChangeToJumpState.Try(obj, input,grounded, state);
+                    ChangeToJumpState.Try(state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
-                    UpdateVelocityUsingInputs.Update(obj, facingRight, input);
-                    UpdateJump.Update(obj, state);
+                    UpdateVelocityUsingInputs.Update(obj, input);
+                    UpdateJumpStart.Update(obj);
                     PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
@@ -96,17 +96,19 @@ namespace Platformer.Desktop
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToFallingState.Try(obj, grounded, state);
                     ChangeToJumpBreak.Try(obj, input, grounded, state);
-                    //ChangeToWalkingRight.Try(input, grounded, state);
+
+                    ChangeToIdle.Try(input, grounded, state);
+                    ChangeToWalking.Try(input, grounded, state);
+                    //ChangeToJumpStart.Try(obj, input, grounded, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
-                    UpdateVelocityUsingInputs.Update(obj, facingRight, input);
-                    UpdateJump.Update(obj, state);
+                    UpdateVelocityUsingInputs.Update(obj, input);
                     PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));                    
+                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
                 });
 
             stateMachine.Add(
@@ -121,8 +123,8 @@ namespace Platformer.Desktop
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
-                    UpdateVelocityUsingInputs.Update(obj, facingRight, input);
-                    UpdateJumpBreak.Update(obj,state);
+                    UpdateVelocityUsingInputs.Update(obj, input);
+                    UpdateJumpBreak.Update(obj);
                     PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
@@ -134,18 +136,16 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeFacingDirection.Change(input, facingRight);
-
                     ChangeToIdle.Try(input, grounded, state);
-
                     ChangeToWalking.Try(input, grounded, state);
-                    ChangeToJumpStart.Try(obj, input, grounded, state);
+                    ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
 
                     PlayerAnimation.Update(obj, animationDic, state, facingRight);
-                    UpdateVelocityUsingInputs.Update(obj, facingRight, input);
+                    UpdateVelocityUsingInputs.Update(obj, input);
 
                     Friction.Apply(obj, input);
                     grounded.SetValue(grounded.GetValue().DecrementUntil(0));

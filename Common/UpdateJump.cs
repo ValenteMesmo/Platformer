@@ -1,18 +1,10 @@
 ﻿namespace Platformer.Desktop
 {
-    public static class UpdateJump
+    public static class UpdateJumpStart
     {
-        public static void Update(
-            GameObject obj
-            , ValueKeeper<State> state
-        )
+        public static void Update(GameObject obj)
         {
-            if (state.Changed)
-            {
-                obj.Velocity.Y = -Const.jumpForce;
-                state.SetValue(State.Jump);
-            }
+            obj.Velocity.Y = -Const.jumpForce;
         }
-
     }
 }

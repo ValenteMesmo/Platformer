@@ -14,9 +14,9 @@ namespace Platformer.Desktop
             obj.RenderHandler = animations[state];
             animations[state].flipped = !facingRight;
 
-            if (state.Changed)
-                animations[state].Reset();
-            else
+            //if (state.Changed)
+            //    animations[state].Reset();
+            //else
                 animations[state].Update();
         }
 

@@ -2,17 +2,9 @@
 {
     public static class UpdateJumpBreak
     {
-        public static void Update(
-            GameObject obj
-            , ValueKeeper<State> state
-        )
+        public static void Update(GameObject obj)
         {
-            if (state.Changed)
-            {
-                obj.Velocity.Y += Const.stoppingGravity;
-                state.SetValue(State.JumpBreak);
-            }
+            obj.Velocity.Y += Const.stoppingGravity;
         }
-
     }
 }
