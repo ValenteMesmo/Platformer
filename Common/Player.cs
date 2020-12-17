@@ -42,7 +42,7 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeToFallingState.Try(obj, grounded, state);
-                    ChangeToWalking.Try(input, grounded, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
@@ -60,7 +60,7 @@ namespace Platformer.Desktop
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToFallingState.Try(obj, grounded, state);
                     ChangeToIdle.Try(input, grounded, state);
-                    ChangeToWalking.Try(input, grounded, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
@@ -98,7 +98,7 @@ namespace Platformer.Desktop
                     ChangeToJumpBreak.Try(obj, input, grounded, state);
 
                     ChangeToIdle.Try(input, grounded, state);
-                    ChangeToWalking.Try(input, grounded, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
                     //ChangeToJumpStart.Try(obj, input, grounded, state);
                 }
                 , update: () =>
@@ -117,7 +117,7 @@ namespace Platformer.Desktop
                 {
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToFallingState.Try(obj, grounded, state);
-                    ChangeToWalking.Try(input, grounded, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToIdle.Try(input, grounded, state);
                 }
                 , update: () =>
@@ -137,7 +137,7 @@ namespace Platformer.Desktop
                 {
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToIdle.Try(input, grounded, state);
-                    ChangeToWalking.Try(input, grounded, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
