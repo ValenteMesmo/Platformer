@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace Platformer.Desktop
@@ -10,15 +9,27 @@ namespace Platformer.Desktop
         public int Frame;
         public List<SpriteRenderer> Sprites = null;
         public bool flipped;
-        [Obsolete]
-        public Animation()
+        
+        private Animation()
         {
             Sprites = new List<SpriteRenderer>();
+        }
+
+        public void Reset()
+        {
+            Frame = 0;
         }
 
         public static Animation Create()
         {
             return Pool.Get();
+        }
+
+        public void Update()
+        {
+            Frame++;
+            if (Frame >= Sprites.Count)
+                Frame = 0;
         }
 
         public override void Destroy()

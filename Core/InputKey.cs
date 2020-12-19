@@ -11,7 +11,7 @@
             if (IsPressStaring)
             {
                 IsToogled = !IsToogled;
-                Heat = 15;
+                Heat = 12;
             }
             else
                 Heat = Heat.DecrementUntil(0);
@@ -30,6 +30,12 @@
         public bool IsToogled { get; private set; }
         public bool IsPressStaring { get; private set; }
         public bool IsPressEnding { get; private set; }
+
+        public static implicit operator bool(InputKey key)
+        {
+            return key.IsPressed;
+        }
+
     }
 
 }

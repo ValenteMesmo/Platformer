@@ -3,6 +3,7 @@
     public static class StopsWhenHitingBlocks
     {
         private static CollisionHandler handler = null;
+
         public static CollisionHandler Create()
         {
             handler = CollisionHandler.Create();
@@ -14,7 +15,6 @@
 
             return handler;
         }
-
 
         private static void Bot(Collider Source, Collider target)
         {

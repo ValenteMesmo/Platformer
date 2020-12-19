@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Platformer.Desktop
 {
-    public class Pool<T> where T : new()
+    public class Pool<T> where T : class
     {
         private readonly Queue<T> AvailableItems;
         public int AvailableCount => AvailableItems.Count;
@@ -16,7 +16,7 @@ namespace Platformer.Desktop
         public T Get()
         {
             if (AvailableItems.Count == 0)
-                return new T();
+                return (T)Activator.CreateInstance(typeof(T), true);
 
             return AvailableItems.Dequeue();
         }

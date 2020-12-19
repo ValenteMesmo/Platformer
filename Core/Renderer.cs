@@ -29,7 +29,8 @@ namespace Platformer.Desktop
         {
             Color = Color.Red;
             scale = 10;
-            Offset = Point.Zero;            
+            Offset = Point.Zero;
+            Text = "";
         }
 
         public override void Destroy()

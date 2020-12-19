@@ -5,6 +5,7 @@ namespace Tests.Unit
 {
     public class UpdateJumpTests
     {
+
         [Fact]
         public void High_Jump()
         {
@@ -15,7 +16,7 @@ namespace Tests.Unit
             input.Jump.Press();
             grounded.SetValue(1);
 
-            UpdateJump.Update(obj, input, grounded);
+            //UpdateJump.Update(obj, input, grounded);
 
             Assert.Equal(obj.Velocity.Y, -Const.jumpForce);
         }
@@ -30,12 +31,12 @@ namespace Tests.Unit
             input.Jump.Press();
             grounded.SetValue(6);
 
-            UpdateJump.Update(obj, input, grounded);
+            //UpdateJump.Update(obj, input, grounded);
             input.Jump.Release();
 
             Assert.Equal(obj.Velocity.Y, -Const.jumpForce);
 
-            UpdateJump.Update(obj, input, grounded);
+            //UpdateJump.Update(obj, input, grounded);
 
             Assert.Equal(obj.Velocity.Y, -Const.jumpForce + Const.stoppingGravity);
         }

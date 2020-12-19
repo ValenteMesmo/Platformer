@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Platformer.Desktop
 {
+    //todo: make addobject method internal and call it here... and remove on destroy
     public class GameObject
     {
         public Point Position;

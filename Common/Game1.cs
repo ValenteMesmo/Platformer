@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Content;
-using System;
 
 namespace Platformer.Desktop
 {
@@ -43,10 +42,10 @@ namespace Platformer.Desktop
                 currentObj.Position.X = -400 * Const.Scale + (200 * Const.Scale * 8);
                 AddObject(currentObj);
             }
-            
+
             {
                 var currentObj = Block.Create();
-                currentObj.Position.Y = 200 * Const.Scale ;
+                currentObj.Position.Y = 200 * Const.Scale;
                 currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 3);
                 AddObject(currentObj);
             }
@@ -71,17 +70,32 @@ namespace Platformer.Desktop
                 currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 3);
                 AddObject(currentObj);
             }
+            var playerState = ValueKeeper<State>.Create();
+            AddActiveObjects(Player.Create(Player1Inputs, playerState));
 
-            AddActiveObjects(Player.Create(Player1Inputs));
-
+            //move to otherFile
             var fps = GameObject.Create();
-            var text = Textures.text;
-            text.scale = 1000;
-            fps.RenderHandler = text;
-            text.Text = this.CurrentFramesPerSecond.ToString();
-            AddObject(fps);
+            var fpsText = Textures.text;
+            fpsText.scale = 1000;
+            fps.RenderHandler = fpsText;
+            fps.UpdateHandler = () => fpsText.Text = this.CurrentFramesPerSecond.ToString("N1");
+            AddActiveObjects(fps);
+
+            var playerStateDraw = GameObject.Create();
+            playerStateDraw.Position.Y = 12000;
+            var stateText = Textures.text2;
+            stateText.scale = 1000;
+            playerStateDraw.RenderHandler = stateText;
+            playerStateDraw.UpdateHandler = () => stateText.Text = playerState.ToString();
+            AddActiveObjects(playerStateDraw);
 
 
+            {
+                //var preview_head = GameObject.Create();
+                //preview_head.RenderHandler = Textures.head_bump;
+                //preview_head.Position.X = 200 * Const.Scale * 3;
+                //AddObject(preview_head);
+            }
         }
     }
 }

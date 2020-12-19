@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Platformer.Desktop
 {
@@ -7,8 +8,7 @@ namespace Platformer.Desktop
         private static Pool<ValueKeeper<T>> Pool = new Pool<ValueKeeper<T>>();
         private T value;
 
-        [Obsolete]
-        public ValueKeeper()
+        private ValueKeeper()
         {
 
         }
@@ -17,11 +17,14 @@ namespace Platformer.Desktop
         {
             var current = Pool.Get();
             current.value = default;
-
             return current;
         }
 
-        public void SetValue(T newValue) => value = newValue;
+        public void SetValue(T newValue)
+        {
+            value = newValue;
+        }
+
         public T GetValue() => value;
 
         public void Destroy()
@@ -32,6 +35,11 @@ namespace Platformer.Desktop
         public static implicit operator T(ValueKeeper<T> keeper)
         {
             return keeper.value;
+        }
+
+        public override string ToString()
+        {
+            return value?.ToString();
         }
 
     }
