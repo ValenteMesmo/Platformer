@@ -51,6 +51,7 @@ namespace Platformer.Desktop
         JumpStart,
         Jump,
         JumpBreak,
+        HeadBump,
         Fall
     }
 

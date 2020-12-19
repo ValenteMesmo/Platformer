@@ -23,6 +23,7 @@ namespace Platformer.Desktop
             ActiveObjects = new List<GameObject>();
             Camera = new Camera() { Zoom = 0.72f, Position = new Point(500, 0) };
             Player1Inputs = new InputController();
+            //Player1Inputs.ColliderToggle.Press();
             originalGameInstance = new GameWrapper(this);
         }
 
@@ -238,9 +239,7 @@ namespace Platformer.Desktop
 
                 if (Parent.Player1Inputs.ColliderToggle.IsToogled)
                     for (j = 0; j < Parent.Objects[i].Colliders.Count; j++)
-                    {
-                        DrawBorder(Parent.Objects[i].Colliders[j].RelativeArea, 1000, Color.Red, spriteBatch);
-                    }
+                        DrawBorder(Parent.Objects[i].Colliders[j].RelativeArea, 600, Color.Red, spriteBatch);
 
             }
 
@@ -250,9 +249,7 @@ namespace Platformer.Desktop
 
                 if (Parent.Player1Inputs.ColliderToggle.IsToogled)
                     for (j = 0; j < Parent.ActiveObjects[i].Colliders.Count; j++)
-                    {
-                        DrawBorder(Parent.ActiveObjects[i].Colliders[j].RelativeArea, 1000, Color.Red, spriteBatch);
-                    }
+                        DrawBorder(Parent.ActiveObjects[i].Colliders[j].RelativeArea, 600, Color.Red, spriteBatch);
 
             }
             spriteBatch.End();

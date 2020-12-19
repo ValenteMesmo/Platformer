@@ -52,5 +52,12 @@ namespace Platformer.Desktop
             animation.Sprites.Add(Textures.walk);
             return animation;
         }
+
+        public static Animation HeadBump()
+        {
+            var animation = Animation.Create();
+            animation.Sprites.Add(Textures.head_bump);
+            return animation;
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Platformer.Desktop
         public static SpriteRenderer walk;
         public static SpriteRenderer block;
         public static SpriteRenderer jump;
+        public static SpriteRenderer head_bump;
         //TODO: fix this...
         public static TextRenderer text;
         public static TextRenderer text2;
@@ -18,7 +19,7 @@ namespace Platformer.Desktop
         {
             idle = SpriteRenderer.Create();
             idle.Texture = Content.Load<Texture2D>("idle");
-            idle.Size = new Point(200*Const.Scale, 200* Const.Scale);
+            idle.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
 
             walk = SpriteRenderer.Create();
             walk.Texture = Content.Load<Texture2D>("walk");
@@ -31,7 +32,13 @@ namespace Platformer.Desktop
             jump = SpriteRenderer.Create();
             jump.Texture = Content.Load<Texture2D>("jump");
             jump.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
-            jump.Offset = new Point(0,36 * Const.Scale);
+            jump.Offset = new Point(0, 36 * Const.Scale);
+
+            head_bump = SpriteRenderer.Create();
+            head_bump.Texture = Content.Load<Texture2D>("head_bump");
+            head_bump.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
+            head_bump.Offset = new Point(0, 12 * Const.Scale);
+
 
             text = TextRenderer.Create();
             text.Font = Content.Load<SpriteFont>("font");

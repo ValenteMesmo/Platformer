@@ -88,6 +88,14 @@ namespace Platformer.Desktop
             playerStateDraw.RenderHandler = stateText;
             playerStateDraw.UpdateHandler = () => stateText.Text = playerState.ToString();
             AddActiveObjects(playerStateDraw);
+
+
+            {
+                //var preview_head = GameObject.Create();
+                //preview_head.RenderHandler = Textures.head_bump;
+                //preview_head.Position.X = 200 * Const.Scale * 3;
+                //AddObject(preview_head);
+            }
         }
     }
 }
