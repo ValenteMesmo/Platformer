@@ -7,6 +7,7 @@ namespace Platformer.Desktop
     //todo: make addobject method internal and call it here... and remove on destroy
     public class GameObject
     {
+        public Point PreviousPosition;
         public Point Position;
         public Point Velocity;
         int i;

@@ -19,8 +19,8 @@ namespace Platformer.Desktop
         public int Height => Area.Height;
         public Rectangle RelativeArea =>
             new Rectangle(
-                Area.X + Parent.Position.X
-                , Area.Y + Parent.Position.Y
+                Area.X + Parent.PreviousPosition.X
+                , Area.Y + Parent.PreviousPosition.Y
                 , Area.Width
                 , Area.Height
             );
