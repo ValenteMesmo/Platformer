@@ -8,6 +8,7 @@
         public InputKey Right;
 
         public InputKey Jump;
+        public InputKey Dash;
         public InputKey ColliderToggle;
     }
 }

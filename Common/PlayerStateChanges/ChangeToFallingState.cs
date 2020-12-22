@@ -8,7 +8,7 @@
             , ValueKeeper<int> hittingHead
             , ValueKeeper<State> state)
         {
-            if (grounded == 0 && obj.Velocity.Y > 0)
+            if (grounded == 0 && obj.Velocity.Y >= 0)
                 state.SetValue(State.Fall);
             else if (hittingHead > 0 && obj.Velocity.Y > -1000)
                 state.SetValue(State.Fall);

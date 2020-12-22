@@ -52,7 +52,8 @@ namespace Platformer.Desktop
         Jump,
         JumpBreak,
         HeadBump,
-        Fall
+        Fall,
+        Dash
     }
 
     public static class StateExtensions

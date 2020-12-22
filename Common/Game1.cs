@@ -71,7 +71,14 @@ namespace Platformer.Desktop
                 AddObject(currentObj);
             }
             var playerState = ValueKeeper<State>.Create();
-            AddActiveObjects(Player.Create(Player1Inputs, playerState));
+            AddActiveObjects(
+                Player.Create(
+                    Player1Inputs
+                    , playerState
+                    , ValueKeeper<int>.Create()
+                    , ValueKeeper<int>.Create()
+                    , ValueKeeper<int>.Create()
+                    , ValueKeeper<bool>.Create()));
 
             //move to otherFile
             var fps = GameObject.Create();

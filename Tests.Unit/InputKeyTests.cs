@@ -69,8 +69,6 @@ namespace Tests.Unit
             sut.Release();
 
             Assert.False(sut.IsPressed);
-
-
         }
     }
 }

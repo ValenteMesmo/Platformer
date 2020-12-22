@@ -23,8 +23,13 @@
         }
 
         public static int DecrementUntil(this int value, int limit)
-        {            
+        {
             return DecrementUntil(value, 1, limit);
+        }
+
+        public static void DecrementUntil(this ValueKeeper<int> value, int limit)
+        {
+            value.SetValue(DecrementUntil(value, 1, limit));
         }
     }
 }

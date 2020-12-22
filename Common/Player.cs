@@ -5,21 +5,23 @@ namespace Platformer.Desktop
 {
     public static class Player
     {
-        public static GameObject Create(InputController input, ValueKeeper<State> state)
+        public static GameObject Create(
+            InputController input
+            , ValueKeeper<State> state
+            , ValueKeeper<int> dashCooldown
+            , ValueKeeper<int> grounded
+            , ValueKeeper<int> hittingHead
+            , ValueKeeper<bool> facingRight)
         {
             var obj = GameObject.Create();
             obj.Position.Y = -14000;
             obj.Identifier = Identifier.Player;
 
-            var grounded = ValueKeeper<int>.Create();
-            var hittingHead = ValueKeeper<int>.Create();
-            var facingRight = ValueKeeper<bool>.Create();
-
             {
                 var collider = Collider.Create(obj);
                 collider.Area = new Rectangle(
                     50 * Const.Scale
-                    , 60 * Const.Scale 
+                    , 60 * Const.Scale
                     , 100 * Const.Scale
                     , 200 * Const.Scale - 60 * Const.Scale);
                 collider.Handler = StopsWhenHitingBlocks.Create();
@@ -45,6 +47,7 @@ namespace Platformer.Desktop
                 , { State.Jump, PlayerAnimation.Jump() }
                 , { State.JumpBreak, PlayerAnimation.Fall() }
                 , { State.HeadBump, PlayerAnimation.HeadBump() }
+                , { State.Dash, PlayerAnimation.Fall() }
             };
 
             var stateMachine = StateMachine.Create();
@@ -56,6 +59,7 @@ namespace Platformer.Desktop
                     ChangeToFallingState.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
+                    ChangeToDash.Try(input,dashCooldown,state);
                 }
                 , update: () =>
                 {
@@ -193,6 +197,29 @@ namespace Platformer.Desktop
                     hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
                     grounded.SetValue(grounded.GetValue().DecrementUntil(0));
                 });
+
+            stateMachine.Add(
+               State.Dash
+               , stateChange: () =>
+               {
+                   if (dashCooldown == 0)
+                   {
+                       ChangeToFallingState.Try(obj, grounded, hittingHead, state);
+                       ChangeToWalking.Try(input, grounded, state, obj);
+                       ChangeToIdle.Try(input, grounded, state);
+                       ChangeToFallingState.Try(obj,grounded,hittingHead,state);
+                       ChangeToJumpStart.Try(input, grounded, state);
+                   }
+               }
+               , update: () =>
+               {
+                   UpdateDashVelocity.Update(obj, facingRight);
+
+                   PlayerAnimation.Update(obj, animationDic, state, facingRight);                   
+                   hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
+                   grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+                   dashCooldown.DecrementUntil(0);
+               });
 
             obj.RenderHandler = PlayerAnimation.Idle();
             obj.UpdateHandler = () => stateMachine.Update(state);

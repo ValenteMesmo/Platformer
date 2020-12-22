@@ -126,6 +126,11 @@ namespace Platformer.Desktop
             else
                 Parent.Player1Inputs.Jump.Release();
 
+            if (key.IsKeyDown(Keys.Z) || gamePad.IsButtonDown(Buttons.B))
+                Parent.Player1Inputs.Dash.Press();
+            else
+                Parent.Player1Inputs.Dash.Release();
+
             if (key.IsKeyDown(Keys.F10))
                 Parent.Player1Inputs.ColliderToggle.Press();
             else
