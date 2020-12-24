@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace Platformer.Desktop
@@ -52,22 +53,30 @@ namespace Platformer.Desktop
 
             var stateMachine = StateMachine.Create();
 
+            Action commonUpdate = () =>
+            {
+                grounded.DecrementUntil(0);
+                hittingHead.DecrementUntil(0);
+                dashCooldown.DecrementUntil(0);
+                PlayerAnimation.Update(obj, animationDic, state, facingRight);
+            };
+
             stateMachine.Add(
                 State.Idle
                 , stateChange: () =>
                 {
-                    ChangeToFallingState.Try(obj, grounded, hittingHead, state);
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
+                    ChangeToIdle.Try(input, grounded, state);
+                    ChangeToDash.Try(input, dashCooldown, state);
                     ChangeToJumpStart.Try(input, grounded, state);
-                    ChangeToDash.Try(input,dashCooldown,state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -75,18 +84,18 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeFacingDirection.Change(input, facingRight);
-                    ChangeToFallingState.Try(obj, grounded, hittingHead, state);
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
+                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
                     UpdateVelocityUsingInputs.Update(obj, input);
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -95,17 +104,16 @@ namespace Platformer.Desktop
                 {
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToJumpState.Try(state);
+                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
                     UpdateVelocityUsingInputs.Update(obj, input);
                     UpdateJumpStart.Update(obj);
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -113,23 +121,21 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeFacingDirection.Change(input, facingRight);
-                    ChangeToFallingState.Try(obj, grounded, hittingHead, state);
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToJumpBreak.Try(obj, input, grounded, state);
 
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToBumpHead.Try(state, obj, hittingHead);
-                    //ChangeToJumpStart.Try(obj, input, grounded, state);
+                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
                     UpdateVelocityUsingInputs.Update(obj, input);
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -137,23 +143,18 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeFacingDirection.Change(input, facingRight);
-                    ChangeToFallingState.Try(obj, grounded, hittingHead, state);
-                    //ChangeToJumpBreak.Try(obj, input, grounded, state);
-
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
-                    //ChangeToBumpHead.Try(state, obj, hittingHead);
-                    //ChangeToJumpStart.Try(obj, input, grounded, state);
+                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
                     UpdateVelocityUsingInputs.Update(obj, input);
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -161,20 +162,20 @@ namespace Platformer.Desktop
                 , stateChange: () =>
                 {
                     ChangeFacingDirection.Change(input, facingRight);
-                    ChangeToFallingState.Try(obj, grounded, hittingHead, state);
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToIdle.Try(input, grounded, state);
+                    ChangeToDash.Try(input, dashCooldown, state);
+
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
                     UpdateVelocityUsingInputs.Update(obj, input);
                     UpdateJumpBreak.Update(obj);
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     Friction.Apply(obj, input);
 
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -185,17 +186,16 @@ namespace Platformer.Desktop
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
+                    ChangeToDash.Try(input, dashCooldown, state);
+
                 }
                 , update: () =>
                 {
                     UpdateGravity.Update(obj);
-
-                    PlayerAnimation.Update(obj, animationDic, state, facingRight);
                     UpdateVelocityUsingInputs.Update(obj, input);
-
                     Friction.Apply(obj, input);
-                    hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                    grounded.SetValue(grounded.GetValue().DecrementUntil(0));
+
+                    commonUpdate();
                 });
 
             stateMachine.Add(
@@ -204,21 +204,18 @@ namespace Platformer.Desktop
                {
                    if (dashCooldown == 0)
                    {
-                       ChangeToFallingState.Try(obj, grounded, hittingHead, state);
+                       ChangeToFall.Try(obj, grounded, hittingHead, state);
                        ChangeToWalking.Try(input, grounded, state, obj);
                        ChangeToIdle.Try(input, grounded, state);
-                       ChangeToFallingState.Try(obj,grounded,hittingHead,state);
+                       ChangeToFall.Try(obj, grounded, hittingHead, state);
                        ChangeToJumpStart.Try(input, grounded, state);
                    }
                }
                , update: () =>
                {
-                   UpdateDashVelocity.Update(obj, facingRight);
+                   UpdateDash.Update(obj, facingRight);
 
-                   PlayerAnimation.Update(obj, animationDic, state, facingRight);                   
-                   hittingHead.SetValue(hittingHead.GetValue().DecrementUntil(0));
-                   grounded.SetValue(grounded.GetValue().DecrementUntil(0));
-                   dashCooldown.DecrementUntil(0);
+                   commonUpdate();
                });
 
             obj.RenderHandler = PlayerAnimation.Idle();

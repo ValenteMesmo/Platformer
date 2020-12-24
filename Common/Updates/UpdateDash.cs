@@ -1,6 +1,6 @@
 ﻿namespace Platformer.Desktop
 {
-    public static class UpdateDashVelocity
+    public static class UpdateDash
     {
         public static void Update(
             GameObject obj
@@ -11,6 +11,8 @@
                 obj.Velocity.X = Const.move_speed * 3;
             else
                 obj.Velocity.X = -Const.move_speed * 3;
+
+            obj.Velocity.Y = 0;
         }
     }
 }

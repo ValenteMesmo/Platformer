@@ -65,7 +65,7 @@ namespace Tests.Unit
         {
             var sut = Player.Create(input, state, dashCooldown, grounded, hittingHead, facingRight);
 
-            grounded.SetValue(1);
+            grounded.SetValue(Const.Grounded_Timer);
             sut.UpdateHandler();
 
             Assert.Equal(State.Idle, state);

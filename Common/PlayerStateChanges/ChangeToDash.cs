@@ -10,7 +10,7 @@
             if (input.Dash.IsPressStaring && cooldown == 0)
             {
                 state.SetValue(State.Dash);
-                cooldown.SetValue(6);
+                cooldown.SetValue(9);
             }
         }
     }
