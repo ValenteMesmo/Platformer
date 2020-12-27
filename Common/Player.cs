@@ -48,7 +48,6 @@ namespace Platformer.Desktop
                 , { State.Jump, PlayerAnimation.Jump() }
                 , { State.JumpBreak, PlayerAnimation.Fall() }
                 , { State.HeadBump, PlayerAnimation.HeadBump() }
-                , { State.Dash, PlayerAnimation.Fall() }
             };
 
             var stateMachine = StateMachine.Create();
@@ -68,7 +67,6 @@ namespace Platformer.Desktop
                     ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToIdle.Try(input, grounded, state);
-                    ChangeToDash.Try(input, dashCooldown, state);
                     ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
@@ -88,7 +86,6 @@ namespace Platformer.Desktop
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
-                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
@@ -104,7 +101,6 @@ namespace Platformer.Desktop
                 {
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToJumpState.Try(state);
-                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
@@ -127,7 +123,6 @@ namespace Platformer.Desktop
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToBumpHead.Try(state, obj, hittingHead);
-                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
@@ -146,7 +141,6 @@ namespace Platformer.Desktop
                     ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
-                    ChangeToDash.Try(input, dashCooldown, state);
                 }
                 , update: () =>
                 {
@@ -165,7 +159,6 @@ namespace Platformer.Desktop
                     ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToIdle.Try(input, grounded, state);
-                    ChangeToDash.Try(input, dashCooldown, state);
 
                 }
                 , update: () =>
@@ -186,7 +179,6 @@ namespace Platformer.Desktop
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
-                    ChangeToDash.Try(input, dashCooldown, state);
 
                 }
                 , update: () =>
@@ -197,26 +189,7 @@ namespace Platformer.Desktop
 
                     commonUpdate();
                 });
-
-            stateMachine.Add(
-               State.Dash
-               , stateChange: () =>
-               {
-                   if (dashCooldown == 0)
-                   {
-                       ChangeToFall.Try(obj, grounded, hittingHead, state);
-                       ChangeToWalking.Try(input, grounded, state, obj);
-                       ChangeToIdle.Try(input, grounded, state);
-                       ChangeToFall.Try(obj, grounded, hittingHead, state);
-                       ChangeToJumpStart.Try(input, grounded, state);
-                   }
-               }
-               , update: () =>
-               {
-                   UpdateDash.Update(obj, facingRight);
-
-                   commonUpdate();
-               });
+            
 
             obj.RenderHandler = PlayerAnimation.Idle();
             obj.UpdateHandler = () => stateMachine.Update(state);
