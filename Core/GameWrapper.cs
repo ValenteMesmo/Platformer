@@ -9,7 +9,9 @@ namespace Platformer.Desktop
     public class GameWrapper : MonogameGame
     {
         GraphicsDeviceManager graphics = null;
-        SpriteBatch spriteBatch = null;
+        SpriteBatch worldBatch = null;
+        SpriteBatch guiBatch = null;
+
         private KeyboardState key;
         private GamePadState gamePad;
         private Texture2D pixel = null;
@@ -49,17 +51,18 @@ namespace Platformer.Desktop
                 graphics.ApplyChanges();
             }
             Window.Title = "Platformer";
-            previousUpdate = DateTime.Now;
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
 
             InactiveSleepTime = new TimeSpan(0);
+            previousUpdate = DateTime.Now;
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            worldBatch = new SpriteBatch(GraphicsDevice);
+            guiBatch = new SpriteBatch(GraphicsDevice);
             Parent.LoadContent(Content);
 
             pixel = new Texture2D(GraphicsDevice, 1, 1);
@@ -151,12 +154,12 @@ namespace Platformer.Desktop
                     currentCollider = currentObject.Colliders[j];
 
                     //currentCollider.BeforeCollisionHandler();
-                    for (k = 0; k < Parent.Objects.Count; k++)
-                        for (l = 0; l < Parent.Objects[k].Colliders.Count; l++)
+                    for (k = 0; k < Parent.PassiveObjects.Count; k++)
+                        for (l = 0; l < Parent.PassiveObjects[k].Colliders.Count; l++)
                             CheckCollisions(
                                 CollisionDirection.Vertical
                                 , currentCollider
-                                , Parent.Objects[k].Colliders[l]);
+                                , Parent.PassiveObjects[k].Colliders[l]);
                 }
 
                 currentObject.Position.X += currentObject.Velocity.X;
@@ -166,12 +169,12 @@ namespace Platformer.Desktop
                     currentCollider = currentObject.Colliders[j];
 
                     //currentCollider.BeforeCollisionHandler();
-                    for (k = 0; k < Parent.Objects.Count; k++)
-                        for (l = 0; l < Parent.Objects[k].Colliders.Count; l++)
+                    for (k = 0; k < Parent.PassiveObjects.Count; k++)
+                        for (l = 0; l < Parent.PassiveObjects[k].Colliders.Count; l++)
                             CheckCollisions(
                                 CollisionDirection.Horizontal
                                 , currentCollider
-                                , Parent.Objects[k].Colliders[l]);
+                                , Parent.PassiveObjects[k].Colliders[l]);
                 }
             }
         }
@@ -201,36 +204,52 @@ namespace Platformer.Desktop
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(
+            worldBatch.Begin(
                 SpriteSortMode.Deferred
                 , BlendState.NonPremultiplied
                 , SamplerState.LinearClamp
                 , DepthStencilState.None
                 , RasterizerState.CullNone
                 , null
-                , Parent.Camera.GetTransformation(GraphicsDevice)
+                , Parent.WorldCamera.GetTransformation(GraphicsDevice)
             );
-
-            for (i = 0; i < Parent.Objects.Count; i++)
+            guiBatch.Begin(
+                SpriteSortMode.Deferred
+                , BlendState.NonPremultiplied
+                , SamplerState.LinearClamp
+                , DepthStencilState.None
+                , RasterizerState.CullNone
+                , null
+                , Parent.GuiCamera.GetTransformation(GraphicsDevice)
+            );
+            
+            for (i = 0; i < Parent.PassiveObjects.Count; i++)
             {
-                Parent.Objects[i].RenderHandler.Draw(spriteBatch, spriteBatch, Parent.Objects[i]);
+                Parent.PassiveObjects[i].RenderHandler.Draw(worldBatch, Parent.PassiveObjects[i]);                
 
                 if (Parent.Player1Inputs.ColliderToggle.IsToogled)
-                    for (j = 0; j < Parent.Objects[i].Colliders.Count; j++)
-                        DrawBorder(Parent.Objects[i].Colliders[j].RelativeArea, 600, Color.Red, spriteBatch);
+                    for (j = 0; j < Parent.PassiveObjects[i].Colliders.Count; j++)
+                        DrawBorder(Parent.PassiveObjects[i].Colliders[j].RelativeArea, 600, Color.Red, worldBatch);
 
             }
 
             for (i = 0; i < Parent.ActiveObjects.Count; i++)
             {
-                Parent.ActiveObjects[i].RenderHandler.Draw(spriteBatch, spriteBatch, Parent.ActiveObjects[i]);
+                Parent.ActiveObjects[i].RenderHandler.Draw(worldBatch, Parent.ActiveObjects[i]);
 
                 if (Parent.Player1Inputs.ColliderToggle.IsToogled)
                     for (j = 0; j < Parent.ActiveObjects[i].Colliders.Count; j++)
-                        DrawBorder(Parent.ActiveObjects[i].Colliders[j].RelativeArea, 600, Color.Red, spriteBatch);
+                        DrawBorder(Parent.ActiveObjects[i].Colliders[j].RelativeArea, 600, Color.Red, worldBatch);
 
             }
-            spriteBatch.End();
+
+            for (i = 0; i < Parent.GuiObjects.Count; i++)
+            {
+                Parent.GuiObjects[i].RenderHandler.Draw(guiBatch, Parent.GuiObjects[i]);
+            }
+
+            worldBatch.End();
+            guiBatch.End();
 
             base.Draw(gameTime);
         }

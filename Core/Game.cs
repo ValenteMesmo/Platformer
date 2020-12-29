@@ -8,17 +8,21 @@ namespace Platformer.Desktop
     public abstract class Game : IDisposable
     {
         private readonly GameWrapper originalGameInstance;
-        public Camera Camera = null;
-        internal List<GameObject> Objects = null;
+        public Camera WorldCamera = null;
+        public Camera GuiCamera = null;
+        internal List<GameObject> PassiveObjects = null;
         internal List<GameObject> ActiveObjects = null;
+        internal List<GameObject> GuiObjects = null;
         public InputController Player1Inputs = null;
         public double CurrentFramesPerSecond = 60;
 
         public Game()
         {
-            Objects = new List<GameObject>();
+            PassiveObjects = new List<GameObject>();
             ActiveObjects = new List<GameObject>();
-            Camera = new Camera() { Zoom = 0.72f, Position = new Point(500, 0) };
+            GuiObjects = new List<GameObject>();
+            WorldCamera = new Camera() { Zoom = 0.72f, Position = new Point(500, 0) };
+            GuiCamera = new Camera() { Zoom = 1f, Position = new Point(681, 381) };
             Player1Inputs = new InputController();
             //Player1Inputs.ColliderToggle.Press();
             originalGameInstance = new GameWrapper(this);
@@ -43,7 +47,12 @@ namespace Platformer.Desktop
 
         protected void AddObject(GameObject gameObject)
         {
-            Objects.Add(gameObject);
+            PassiveObjects.Add(gameObject);
+        }
+
+        protected void AddGuiObject(GameObject gameObject)
+        {
+            GuiObjects.Add(gameObject);
         }
     }
 }

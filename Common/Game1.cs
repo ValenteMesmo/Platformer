@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.Desktop
 {
@@ -6,8 +7,8 @@ namespace Platformer.Desktop
     {
         public override void LoadContent(ContentManager Content)
         {
-            Camera.Zoom = 0.006f;
-            Camera.Position.X = 500 * Const.Scale;
+            WorldCamera.Zoom = 0.006f;
+            WorldCamera.Position.X = 500 * Const.Scale;
 
             Textures.Load(Content);
 
@@ -96,6 +97,30 @@ namespace Platformer.Desktop
             playerStateDraw.UpdateHandler = () => stateText.Text = playerState.ToString();
             AddActiveObjects(playerStateDraw);
 
+            {
+                var dpadText1 = Textures.create_dpad();
+                var dpadText2 = Textures.create_dpad();
+                dpadText1.Color = new Color(0, 0, 0, 90);
+                dpadText2.Color = new Color(240, 240, 240);
+                dpadText1.Offset = new Point(6, 6);
+                var dpad = GameObject.Create();
+                dpad.RenderHandler = RenderGroup.Create(dpadText1, dpadText2);
+                dpad.Position = new Point(0, 460);
+                AddGuiObject(dpad);
+            }
+
+            {
+                var dpadText1 = Textures.create_dpad();
+                var dpadText2 = Textures.create_dpad();
+                dpadText1.Color = new Color(0,0,0,90);
+                dpadText2.Color = new Color(240,240,240);
+                dpadText1.Offset = new Point(6, 6);
+                var dpad = GameObject.Create();
+                dpad.RenderHandler = RenderGroup.Create(dpadText1, dpadText2);
+                dpad.Position = new Point(1060,460);
+                
+                AddGuiObject(dpad);
+            }
 
             {
                 //var preview_head = GameObject.Create();

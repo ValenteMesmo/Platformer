@@ -39,11 +39,11 @@ namespace Platformer.Desktop
             Pool.Return(this);
         }
 
-        public override void Draw(SpriteBatch batchGui, SpriteBatch batch, GameObject Parent)
+        public override void Draw(SpriteBatch batch, GameObject Parent)
         {
             //TODO: this is weird
             Sprites[Frame].flipped = flipped;
-            Sprites[Frame].Draw(batchGui, batch, Parent);
+            Sprites[Frame].Draw(batch, Parent);
         }
     }
 }

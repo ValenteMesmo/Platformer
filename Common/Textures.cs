@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Platformer.Desktop
 {
     public static class Textures
     {
+        public static Func<SpriteRenderer> create_dpad;
+        private static Texture2D dpad_texture;
         public static SpriteRenderer idle;
         public static SpriteRenderer walk;
         public static SpriteRenderer block;
@@ -17,6 +20,16 @@ namespace Platformer.Desktop
 
         public static void Load(ContentManager Content)
         {
+            dpad_texture = Content.Load<Texture2D>("dpad");
+            create_dpad = () =>
+            {
+                var dpad = SpriteRenderer.Create();
+                dpad.Texture = dpad_texture;
+                dpad.Size = new Point(300, 300);
+                return dpad;
+            };
+
+
             idle = SpriteRenderer.Create();
             idle.Texture = Content.Load<Texture2D>("idle");
             idle.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
