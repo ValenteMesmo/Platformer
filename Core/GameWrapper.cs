@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using MonogameGame = Microsoft.Xna.Framework.Game;
 
@@ -14,6 +15,8 @@ namespace Platformer.Desktop
 
         private KeyboardState key;
         private GamePadState gamePad;
+        private MouseState mouse;
+        private TouchCollection touchPanel;
         private Texture2D pixel = null;
 
         private readonly Game Parent;
@@ -113,21 +116,27 @@ namespace Platformer.Desktop
         {
             key = Keyboard.GetState();
             gamePad = GamePad.GetState(0);
+            mouse = Mouse.GetState();
+            touchPanel = TouchPanel.GetState();
 
-            if (key.IsKeyDown(Keys.A) || gamePad.IsButtonDown(Buttons.DPadLeft))
-                Parent.Player1Inputs.Left.Press();
-            else
-                Parent.Player1Inputs.Left.Release();
+            Parent.Clicks.Clear();
+            if (mouse.LeftButton == ButtonState.Pressed)
+                Parent.Clicks.Add(Parent.GuiCamera.GetWorldPosition(mouse.Position));
 
-            if (key.IsKeyDown(Keys.D) || gamePad.IsButtonDown(Buttons.DPadRight))
-                Parent.Player1Inputs.Right.Press();
-            else
-                Parent.Player1Inputs.Right.Release();
+            Parent.Player1Inputs.Left.IsPressed =
+                Parent.Player1Inputs.Left.IsPressed
+                || key.IsKeyDown(Keys.A)
+                || gamePad.IsButtonDown(Buttons.DPadLeft);
 
-            if (key.IsKeyDown(Keys.Space) || gamePad.IsButtonDown(Buttons.A))
-                Parent.Player1Inputs.Jump.Press();
-            else
-                Parent.Player1Inputs.Jump.Release();
+            Parent.Player1Inputs.Right.IsPressed =
+                Parent.Player1Inputs.Right.IsPressed
+                || key.IsKeyDown(Keys.D)
+                || gamePad.IsButtonDown(Buttons.DPadRight);
+
+            Parent.Player1Inputs.Jump.IsPressed =
+                Parent.Player1Inputs.Jump.IsPressed
+                || key.IsKeyDown(Keys.Space)
+                || gamePad.IsButtonDown(Buttons.A);
 
             if (key.IsKeyDown(Keys.L) || gamePad.IsButtonDown(Buttons.B))
                 Parent.Player1Inputs.Dash.Press();
@@ -222,10 +231,10 @@ namespace Platformer.Desktop
                 , null
                 , Parent.GuiCamera.GetTransformation(GraphicsDevice)
             );
-            
+
             for (i = 0; i < Parent.PassiveObjects.Count; i++)
             {
-                Parent.PassiveObjects[i].RenderHandler.Draw(worldBatch, Parent.PassiveObjects[i]);                
+                Parent.PassiveObjects[i].RenderHandler.Draw(worldBatch, Parent.PassiveObjects[i]);
 
                 if (Parent.Player1Inputs.ColliderToggle.IsToogled)
                     for (j = 0; j < Parent.PassiveObjects[i].Colliders.Count; j++)

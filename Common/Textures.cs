@@ -8,7 +8,9 @@ namespace Platformer.Desktop
     public static class Textures
     {
         public static Func<SpriteRenderer> create_dpad;
+        public static Func<SpriteRenderer> create_bpad;
         private static Texture2D dpad_texture;
+        private static Texture2D bpad_texture;
         public static SpriteRenderer idle;
         public static SpriteRenderer walk;
         public static SpriteRenderer block;
@@ -25,8 +27,16 @@ namespace Platformer.Desktop
             {
                 var dpad = SpriteRenderer.Create();
                 dpad.Texture = dpad_texture;
-                dpad.Size = new Point(300, 300);
+                dpad.Size = new Point(210, 210);
                 return dpad;
+            };
+            bpad_texture = Content.Load<Texture2D>("bpad");
+            create_bpad = () =>
+            {
+                var bpad = SpriteRenderer.Create();
+                bpad.Texture = bpad_texture;
+                bpad.Size = new Point(210, 210);
+                return bpad;
             };
 
 

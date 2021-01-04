@@ -71,6 +71,7 @@ namespace Platformer.Desktop
                 currentObj.Position.X = -200 * Const.Scale + (200 * Const.Scale * 3);
                 AddObject(currentObj);
             }
+
             var playerState = ValueKeeper<State>.Create();
             AddActiveObjects(
                 Player.Create(
@@ -102,22 +103,22 @@ namespace Platformer.Desktop
                 var dpadText2 = Textures.create_dpad();
                 dpadText1.Color = new Color(0, 0, 0, 90);
                 dpadText2.Color = new Color(240, 240, 240);
-                dpadText1.Offset = new Point(6, 6);
+                dpadText1.Offset = new Point(3, 3);
                 var dpad = GameObject.Create();
                 dpad.RenderHandler = RenderGroup.Create(dpadText1, dpadText2);
-                dpad.Position = new Point(0, 460);
+                dpad.Position = new Point(0, 552);
                 AddGuiObject(dpad);
             }
 
             {
-                var dpadText1 = Textures.create_dpad();
-                var dpadText2 = Textures.create_dpad();
+                var dpadText1 = Textures.create_bpad();
+                var dpadText2 = Textures.create_bpad();
                 dpadText1.Color = new Color(0,0,0,90);
                 dpadText2.Color = new Color(240,240,240);
-                dpadText1.Offset = new Point(6, 6);
+                dpadText1.Offset = new Point(3, 3);
                 var dpad = GameObject.Create();
                 dpad.RenderHandler = RenderGroup.Create(dpadText1, dpadText2);
-                dpad.Position = new Point(1060,460);
+                dpad.Position = new Point(1149, 552);
                 
                 AddGuiObject(dpad);
             }

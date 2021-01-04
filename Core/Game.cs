@@ -13,6 +13,7 @@ namespace Platformer.Desktop
         internal List<GameObject> PassiveObjects = null;
         internal List<GameObject> ActiveObjects = null;
         internal List<GameObject> GuiObjects = null;
+        internal List<Point> Clicks = null;
         public InputController Player1Inputs = null;
         public double CurrentFramesPerSecond = 60;
 
@@ -20,6 +21,7 @@ namespace Platformer.Desktop
         {
             PassiveObjects = new List<GameObject>();
             ActiveObjects = new List<GameObject>();
+            Clicks = new List<Point>();
             GuiObjects = new List<GameObject>();
             WorldCamera = new Camera() { Zoom = 0.72f, Position = new Point(500, 0) };
             GuiCamera = new Camera() { Zoom = 1f, Position = new Point(681, 381) };
@@ -53,6 +55,11 @@ namespace Platformer.Desktop
         protected void AddGuiObject(GameObject gameObject)
         {
             GuiObjects.Add(gameObject);
+        }
+
+        public T GetService<T>() where T : class
+        {
+            return originalGameInstance.Services.GetService<T>();
         }
     }
 }

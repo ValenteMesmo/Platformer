@@ -2,7 +2,7 @@
 {
     public struct InputKey
     {
-        public void Press()
+        private void Press()
         {
             IsPressEnding = false;
             IsPressStaring = !IsPressed;
@@ -17,7 +17,7 @@
                 Heat = Heat.DecrementUntil(0);
         }
 
-        public void Release()
+        private void Release()
         {
             IsPressEnding = IsPressed;
             IsPressStaring = false;
@@ -25,7 +25,15 @@
             Heat = Heat.DecrementUntil(0);
         }
 
-        public bool IsPressed { get; private set; }
+        public void Update()
+        {
+            if (IsPressed)
+                Press();
+            else
+                Release();
+        }
+
+        public bool IsPressed { get; set; }
         public int Heat { get; private set; }
         public bool IsToogled { get; private set; }
         public bool IsPressStaring { get; private set; }
