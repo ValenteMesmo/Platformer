@@ -85,18 +85,20 @@ namespace Platformer.Desktop
             //move to otherFile
             var fps = GameObject.Create();
             var fpsText = Textures.text;
-            fpsText.scale = 1000;
+            fpsText.scale = 3;
             fps.RenderHandler = fpsText;
             fps.UpdateHandler = () => fpsText.Text = this.CurrentFramesPerSecond.ToString("N1");
-            AddActiveObjects(fps);
+            //fps.Position = TouchPadController.TouchArea.Location;
+
+            AddGuiObject(fps);
 
             var playerStateDraw = GameObject.Create();
-            playerStateDraw.Position.Y = 12000;
             var stateText = Textures.text2;
-            stateText.scale = 1000;
+            stateText.scale = 3;
             playerStateDraw.RenderHandler = stateText;
+            playerStateDraw.Position.Y = 60;
             playerStateDraw.UpdateHandler = () => stateText.Text = playerState.ToString();
-            AddActiveObjects(playerStateDraw);
+            AddGuiObject(playerStateDraw);
 
             {
                 var dpadText1 = Textures.create_dpad();
@@ -106,20 +108,20 @@ namespace Platformer.Desktop
                 dpadText1.Offset = new Point(3, 3);
                 var dpad = GameObject.Create();
                 dpad.RenderHandler = RenderGroup.Create(dpadText1, dpadText2);
-                dpad.Position = new Point(0, 552);
+                dpad.Position = TouchPadController.TouchArea.Location;
                 AddGuiObject(dpad);
             }
 
             {
                 var dpadText1 = Textures.create_bpad();
                 var dpadText2 = Textures.create_bpad();
-                dpadText1.Color = new Color(0,0,0,90);
-                dpadText2.Color = new Color(240,240,240);
+                dpadText1.Color = new Color(0, 0, 0, 90);
+                dpadText2.Color = new Color(240, 240, 240);
                 dpadText1.Offset = new Point(3, 3);
                 var dpad = GameObject.Create();
                 dpad.RenderHandler = RenderGroup.Create(dpadText1, dpadText2);
                 dpad.Position = new Point(1149, 552);
-                
+
                 AddGuiObject(dpad);
             }
 

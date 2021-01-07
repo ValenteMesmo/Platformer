@@ -1,4 +1,6 @@
-﻿namespace Platformer.Desktop
+﻿using Microsoft.Xna.Framework;
+
+namespace Platformer.Desktop
 {
     public static class Const
     {
@@ -14,6 +16,7 @@
         public const int move_speed = 1200;
         public const int acceleration = move_speed / 6;
         public const int deceleration = move_speed / 3;
+
     }
     //public static class Const
     //{

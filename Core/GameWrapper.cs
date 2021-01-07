@@ -13,10 +13,6 @@ namespace Platformer.Desktop
         SpriteBatch worldBatch = null;
         SpriteBatch guiBatch = null;
 
-        private KeyboardState key;
-        private GamePadState gamePad;
-        private MouseState mouse;
-        private TouchCollection touchPanel;
         private Texture2D pixel = null;
 
         private readonly Game Parent;
@@ -45,7 +41,7 @@ namespace Platformer.Desktop
         protected override void Initialize()
         {
             base.Initialize();
-
+            
             if (false)
             {
                 graphics.IsFullScreen = true;
@@ -54,10 +50,10 @@ namespace Platformer.Desktop
                 graphics.ApplyChanges();
             }
             Window.Title = "Platformer";
+            IsMouseVisible = true;
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
-
             InactiveSleepTime = new TimeSpan(0);
             previousUpdate = DateTime.Now;
         }
@@ -114,41 +110,12 @@ namespace Platformer.Desktop
 
         private void ActualUpdate()
         {
-            key = Keyboard.GetState();
-            gamePad = GamePad.GetState(0);
-            mouse = Mouse.GetState();
-            touchPanel = TouchPanel.GetState();
+           
 
-            Parent.Clicks.Clear();
-            if (mouse.LeftButton == ButtonState.Pressed)
-                Parent.Clicks.Add(Parent.GuiCamera.GetWorldPosition(mouse.Position));
+            Parent.Player1Inputs.Update(Parent.GuiCamera);
 
-            Parent.Player1Inputs.Left.IsPressed =
-                Parent.Player1Inputs.Left.IsPressed
-                || key.IsKeyDown(Keys.A)
-                || gamePad.IsButtonDown(Buttons.DPadLeft);
 
-            Parent.Player1Inputs.Right.IsPressed =
-                Parent.Player1Inputs.Right.IsPressed
-                || key.IsKeyDown(Keys.D)
-                || gamePad.IsButtonDown(Buttons.DPadRight);
-
-            Parent.Player1Inputs.Jump.IsPressed =
-                Parent.Player1Inputs.Jump.IsPressed
-                || key.IsKeyDown(Keys.Space)
-                || gamePad.IsButtonDown(Buttons.A);
-
-            if (key.IsKeyDown(Keys.L) || gamePad.IsButtonDown(Buttons.B))
-                Parent.Player1Inputs.Dash.Press();
-            else
-                Parent.Player1Inputs.Dash.Release();
-
-            if (key.IsKeyDown(Keys.F10))
-                Parent.Player1Inputs.ColliderToggle.Press();
-            else
-                Parent.Player1Inputs.ColliderToggle.Release();
-
-            for (i = 0; i < Parent.ActiveObjects.Count; i++)
+                for (i = 0; i < Parent.ActiveObjects.Count; i++)
             {
                 currentObject = Parent.ActiveObjects[i];
                 currentObject.UpdateHandler();
@@ -185,6 +152,12 @@ namespace Platformer.Desktop
                                 , currentCollider
                                 , Parent.PassiveObjects[k].Colliders[l]);
                 }
+            }
+
+            for (i = 0; i < Parent.GuiObjects.Count; i++)
+            {
+                currentObject = Parent.GuiObjects[i];
+                currentObject.UpdateHandler();
             }
         }
 
@@ -257,6 +230,8 @@ namespace Platformer.Desktop
                 Parent.GuiObjects[i].RenderHandler.Draw(guiBatch, Parent.GuiObjects[i]);
             }
 
+            
+            //DrawBorder(TouchPadController.TouchAreaExtraSize, 6, Color.Green, guiBatch);
             worldBatch.End();
             guiBatch.End();
 
