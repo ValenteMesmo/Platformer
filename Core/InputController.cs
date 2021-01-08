@@ -91,14 +91,7 @@ namespace Platformer.Desktop
     public class TouchPadController
     {
         public static readonly Rectangle TouchArea = new Rectangle(0, 552, 210, 210);
-        public static readonly Rectangle TouchArea2 = new Rectangle(1149, 552, 210, 210);
-        //public static readonly Rectangle TouchAreaExtraSize = new Rectangle(
-        //    TouchArea.X - 120
-        //    , TouchArea.Y - 120
-        //    , TouchArea.Width + 240
-        //    , TouchArea.Height + 240
-        //);
-   
+        public static readonly Rectangle TouchArea2 = new Rectangle(1149, 552, 210, 210);   
     }
 
     public class InputController
