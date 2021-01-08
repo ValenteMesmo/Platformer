@@ -14,7 +14,7 @@ namespace Platformer.Desktop
 
         public Point delta;
         public Point center;
-        public readonly Point centerOffset = new Point(60, 60);
+        public readonly Point centerOffset = new Point(90, 120);
 
         public bool Up;
         public bool Down;
@@ -50,26 +50,40 @@ namespace Platformer.Desktop
 
                 if (right > left && right > up && right > down)
                 {
-                    center.X = touch.X - centerOffset.X;
-                    center.Y = touch.Y;
+                    //TODO: change center only if Right was false?
+                    // or maybe verify minimun distance to change center!
+                    if (delta.X > centerOffset.X)
+                    {
+                        center.X = touch.X - centerOffset.X;
+                        center.Y = touch.Y;
+                    }
                     Right = true;
                 }
                 else if (left > right && left > up && left > down)
                 {
-                    center.X = touch.X + centerOffset.X;
-                    center.Y = touch.Y;
+                    if (delta.X > centerOffset.X)
+                    {
+                        center.X = touch.X + centerOffset.X;
+                        center.Y = touch.Y;
+                    }
                     Left = true;
                 }
                 else if (down > right && down > left && down > up)
                 {
-                    center.X = touch.X;
-                    center.Y = touch.Y - centerOffset.Y;
+                    if (delta.Y > centerOffset.Y)
+                    {
+                        center.X = touch.X;
+                        center.Y = touch.Y - centerOffset.Y;
+                    }
                     Down = true;
                 }
                 else if (up > right && up > left && up > down)
                 {
-                    center.X = touch.X;
-                    center.Y = touch.Y + centerOffset.Y;
+                    if (delta.Y > centerOffset.Y)
+                    {
+                        center.X = touch.X;
+                        center.Y = touch.Y + centerOffset.Y;
+                    }
                     Up = true;
                 }
             }
