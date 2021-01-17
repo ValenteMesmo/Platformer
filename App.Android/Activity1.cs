@@ -55,22 +55,21 @@ namespace App.Android
 
         private void SetViewFullScreen()
         {
-            var view = game.GetService< View>();
+            var view = game.GetService<View>();
             view.SystemUiVisibility = (StatusBarVisibility)
                 (SystemUiFlags.LayoutStable
                 | SystemUiFlags.LayoutHideNavigation
                 | SystemUiFlags.LayoutFullscreen
                 | SystemUiFlags.HideNavigation
+                | SystemUiFlags.Immersive                
                 | SystemUiFlags.Fullscreen
                 | SystemUiFlags.ImmersiveSticky);
 
+            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
             Window.AddFlags(WindowManagerFlags.Fullscreen);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
-            {
-                Window.Attributes.LayoutInDisplayCutoutMode =
-                LayoutInDisplayCutoutMode.ShortEdges;
-            }
+                Window.Attributes.LayoutInDisplayCutoutMode = LayoutInDisplayCutoutMode.ShortEdges;
 
             SetContentView(view);
         }

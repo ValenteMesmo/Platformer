@@ -13,7 +13,7 @@ namespace Platformer.Desktop
 
         public Point delta;
         public Point center;
-        public readonly Point centerOffset = new Point(90, 120);
+        public readonly Point centerOffset = new Point(90, 90);
 
         public bool Up;
         public bool Down;
@@ -49,7 +49,7 @@ namespace Platformer.Desktop
 
                 if (right > left && right > up && right > down)
                 {
-                    if (delta.X > centerOffset.X)
+                    if (right >= centerOffset.X)
                     {
                         center.X = touch.X - centerOffset.X;
                         center.Y = touch.Y;
@@ -58,7 +58,7 @@ namespace Platformer.Desktop
                 }
                 else if (left > right && left > up && left > down)
                 {
-                    if (delta.X > centerOffset.X)
+                    if (left >= centerOffset.X)
                     {
                         center.X = touch.X + centerOffset.X;
                         center.Y = touch.Y;
@@ -67,7 +67,7 @@ namespace Platformer.Desktop
                 }
                 else if (down > right && down > left && down > up)
                 {
-                    if (delta.Y > centerOffset.Y)
+                    if (down >= centerOffset.Y)
                     {
                         center.X = touch.X;
                         center.Y = touch.Y - centerOffset.Y;
@@ -76,7 +76,7 @@ namespace Platformer.Desktop
                 }
                 else if (up > right && up > left && up > down)
                 {
-                    if (delta.Y > centerOffset.Y)
+                    if (up >= centerOffset.Y)
                     {
                         center.X = touch.X;
                         center.Y = touch.Y + centerOffset.Y;
@@ -90,8 +90,8 @@ namespace Platformer.Desktop
 
     public class TouchPadController
     {
-        public static readonly Rectangle TouchArea = new Rectangle(0, 552, 210, 210);
-        public static readonly Rectangle TouchArea2 = new Rectangle(1149, 552, 210, 210);   
+        public static readonly Rectangle TouchArea = new Rectangle(21, 21, 210, 210);
+        public static readonly Rectangle TouchArea2 = new Rectangle(1149 - 21, 21, 210, 210);
     }
 
     public class InputController
@@ -110,8 +110,8 @@ namespace Platformer.Desktop
         private MouseState mouse;
         private TouchCollection touchPanel;
         internal List<Point> Clicks = null;
-        private readonly TouchController TouchController;
-        private readonly TouchController TouchController2;
+        public readonly TouchController TouchController;
+        public readonly TouchController TouchController2;
 
         public InputController()
         {
@@ -150,6 +150,20 @@ namespace Platformer.Desktop
                 Right.Press();
             else
                 Right.Release();
+
+            if (key.IsKeyDown(Keys.W)
+                || gamePad.IsButtonDown(Buttons.DPadUp)
+                || TouchController.Up)
+                Up.Press();
+            else
+                Up.Release();
+
+            if (key.IsKeyDown(Keys.S)
+                || gamePad.IsButtonDown(Buttons.DPadDown)
+                || TouchController.Down)
+                Down.Press();
+            else
+                Down.Release();
 
             if (key.IsKeyDown(Keys.Space)
                 || gamePad.IsButtonDown(Buttons.A)

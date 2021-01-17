@@ -59,5 +59,19 @@ namespace Platformer.Desktop
             animation.Sprites.Add(Textures.head_bump);
             return animation;
         }
+
+        public static Animation LookUp()
+        {
+            var animation = Animation.Create();
+            animation.Sprites.Add(Textures.lookUp);
+            return animation;
+        }
+
+        public static Animation Crouch()
+        {
+            var animation = Animation.Create();
+            animation.Sprites.Add(Textures.crouch);
+            return animation;
+        }
     }
 }

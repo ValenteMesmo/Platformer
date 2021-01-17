@@ -14,7 +14,7 @@ namespace Platformer.Desktop
             collider.Area = new Rectangle(0, 0, 200 * Const.Scale, 200 * Const.Scale);
 
 
-            obj.RenderHandler=Textures.block;
+            obj.RenderHandler=Textures.create_block();
 
             return obj;
         }

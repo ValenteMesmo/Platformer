@@ -12,8 +12,11 @@ namespace Platformer.Desktop
         private static Texture2D dpad_texture;
         private static Texture2D bpad_texture;
         public static SpriteRenderer idle;
+        public static SpriteRenderer crouch;
+        public static SpriteRenderer lookUp;
         public static SpriteRenderer walk;
-        public static SpriteRenderer block;
+        public static Func<SpriteRenderer> create_block;
+        private static Texture2D block;
         public static SpriteRenderer jump;
         public static SpriteRenderer head_bump;
         //TODO: fix this...
@@ -35,7 +38,7 @@ namespace Platformer.Desktop
             {
                 var bpad = SpriteRenderer.Create();
                 bpad.Texture = bpad_texture;
-                bpad.Size = TouchPadController.TouchArea.Size;
+                bpad.Size = TouchPadController.TouchArea2.Size;
                 return bpad;
             };
 
@@ -44,13 +47,29 @@ namespace Platformer.Desktop
             idle.Texture = Content.Load<Texture2D>("idle");
             idle.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
 
+            crouch = SpriteRenderer.Create();
+            crouch.Texture = Content.Load<Texture2D>("idle");
+            crouch.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
+            crouch.Color = Color.Blue;
+
+            lookUp = SpriteRenderer.Create();
+            lookUp.Texture = Content.Load<Texture2D>("idle");
+            lookUp.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
+            lookUp.Color = Color.Yellow;
+
             walk = SpriteRenderer.Create();
             walk.Texture = Content.Load<Texture2D>("walk");
             walk.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
 
-            block = SpriteRenderer.Create();
-            block.Texture = Content.Load<Texture2D>("block");
-            block.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
+            block = Content.Load<Texture2D>("block");
+
+            create_block = () =>
+            {
+                var result = SpriteRenderer.Create();
+                result.Size = new Point(200 * Const.Scale, 200 * Const.Scale);
+                result.Texture = block;
+                return result;
+            };
 
             jump = SpriteRenderer.Create();
             jump.Texture = Content.Load<Texture2D>("jump");

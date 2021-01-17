@@ -48,6 +48,8 @@ namespace Platformer.Desktop
                 , { State.Jump, PlayerAnimation.Jump() }
                 , { State.JumpBreak, PlayerAnimation.Fall() }
                 , { State.HeadBump, PlayerAnimation.HeadBump() }
+                , { State.Crouch, PlayerAnimation.Crouch() }
+                , { State.LookUp, PlayerAnimation.LookUp() }
             };
 
             var stateMachine = StateMachine.Create();
@@ -66,7 +68,8 @@ namespace Platformer.Desktop
                 {
                     ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
-                    ChangeToIdle.Try(input, grounded, state);
+                    ChangeToCrouch.Try(input, grounded, state);
+                    ChangeToLookup.Try(input, grounded, state);
                     ChangeToJumpStart.Try(input, grounded, state);
                 }
                 , update: () =>
@@ -84,6 +87,8 @@ namespace Platformer.Desktop
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToIdle.Try(input, grounded, state);
+                    ChangeToCrouch.Try(input, grounded, state);
+                    ChangeToLookup.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
                     ChangeToJumpStart.Try(input, grounded, state);
                 }
@@ -158,6 +163,8 @@ namespace Platformer.Desktop
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToFall.Try(obj, grounded, hittingHead, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
+                    ChangeToCrouch.Try(input, grounded, state);
+                    ChangeToLookup.Try(input, grounded, state);
                     ChangeToIdle.Try(input, grounded, state);
 
                 }
@@ -178,6 +185,8 @@ namespace Platformer.Desktop
                     ChangeFacingDirection.Change(input, facingRight);
                     ChangeToIdle.Try(input, grounded, state);
                     ChangeToWalking.Try(input, grounded, state, obj);
+                    ChangeToCrouch.Try(input, grounded, state);
+                    ChangeToLookup.Try(input, grounded, state);
                     ChangeToJumpStart.Try(input, grounded, state);
 
                 }
@@ -189,7 +198,43 @@ namespace Platformer.Desktop
 
                     commonUpdate();
                 });
-            
+
+            stateMachine.Add(
+                State.Crouch
+                , stateChange: () =>
+                {
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
+                    ChangeToIdle.Try(input, grounded, state);                    
+                    ChangeToLookup.Try(input, grounded, state);
+                    ChangeToJumpStart.Try(input, grounded, state);
+                }
+                , update: () =>
+                {
+                    UpdateGravity.Update(obj);
+                    Friction.Apply(obj, input);
+
+                    commonUpdate();
+                });
+
+            stateMachine.Add(
+                State.LookUp
+                , stateChange: () =>
+                {
+                    ChangeToFall.Try(obj, grounded, hittingHead, state);
+                    ChangeToWalking.Try(input, grounded, state, obj);
+                    ChangeToIdle.Try(input, grounded, state);
+                    ChangeToCrouch.Try(input, grounded, state);                    
+                    ChangeToJumpStart.Try(input, grounded, state);
+                }
+                , update: () =>
+                {
+                    UpdateGravity.Update(obj);
+                    Friction.Apply(obj, input);
+
+                    commonUpdate();
+                });
+
 
             obj.RenderHandler = PlayerAnimation.Idle();
             obj.UpdateHandler = () => stateMachine.Update(state);
